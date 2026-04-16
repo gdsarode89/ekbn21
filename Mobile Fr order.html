@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>POS System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+    font-family: Arial, sans-serif;
+    padding: 10px; /* Reduced padding for mobile */
+    margin: 0; /* Remove default body margin */
+    background-color: #f4f4f4;
+}
+.hidden { display:none; }
+
+.login-box {
+    max-width: 300px;
+    margin: 40px auto; /* More vertical margin for login */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px; /* Slightly rounded corners */
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.login-box input[type="text"],
+.login-box input[type="password"],
+.login-box select {
+    width: calc(100% - 20px); /* Account for padding */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px; /* Larger font for mobile */
+}
+
+.login-box button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.login-box button:hover {
+    background-color: #0056b3;
+}
+
+
+h2, h3 {
+    text-align: center;
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.menu-section {
+    margin-top: 15px; /* Adjust margin */
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* General button styling */
+button {
+    margin: 5px 0; /* Adjust margin for stacking */
+    padding: 10px 15px; /* Larger touch target */
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    display: block; /* Make buttons stack by default */
+    width: 100%; /* Full width for stacking */
+    transition: background-color 0.2s ease;
+}
+
+button:not(.item-btn) { /* Specific styling for main action buttons */
+    background-color: #28a745;
+    color: white;
+    margin-bottom: 10px;
+}
+
+button:not(.item-btn):hover {
+    background-color: #218838;
+}
+
+#exportBtn {
+    background-color: #17a2b8;
+}
+#exportBtn:hover {
+    background-color: #138496;
+}
+
+#customer {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+table {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden; /* Ensures rounded corners */
+}
+th, td {
+    border: 1px solid #eee; /* Lighter border for table cells */
+    padding: 8px; /* Slightly more padding */
+    text-align: center;
+    font-size: 14px; /* Adjust font size for table */
+}
+th {
+    background-color: #e9ecef;
+    font-weight: bold;
+}
+
+.category {
+    background:#f2f2f2;
+    padding: 10px; /* More padding */
+    margin-top: 10px;
+    border-radius: 4px;
+    border: 1px solid #e9e9e9;
+}
+.category b {
+    display: block; /* Category title on its own line */
+    margin-bottom: 8px;
+    font-size: 1.1em;
+    color: #555;
+    text-align: center;
+}
+
+.item-btn {
+    background:#e0f0ff;
+    color: #0056b3;
+    width: calc(100% - 10px); /* Full width for menu item buttons */
+    margin: 5px auto; /* Center buttons with margin */
+}
+.item-btn:hover {
+    background-color: #cce7ff;
+}
+
+#total {
+    font-size: 1.5em; /* Larger total for visibility */
+    font-weight: bold;
+    color: #dc3545;
+    display: block;
+    text-align: right;
+    margin-top: 15px;
+    padding-right: 10px;
+}
+
+/* Flex container for the top action buttons to allow them to sit side-by-side on larger screens */
+.top-actions {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    margin-bottom: 20px;
+}
+
+.top-actions button {
+    flex: 1; /* Distribute space evenly */
+    min-width: 120px; /* Ensure buttons don't get too small */
+}
+
+/* MEDIA QUERIES for smaller screens */
+@media (max-width: 600px) {
+    body {
+        padding: 5px;
+    }
+
+    .login-box {
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 1.5em; /* Slightly smaller for mobile */
+    }
+
+    h3 {
+        font-size: 1.3em;
+    }
+
+    button {
+        padding: 12px 10px; /* Larger padding for tap targets */
+        font-size: 1em;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .item-btn {
+        width: 100%; /* Ensure full width on small screens */
+        box-sizing: border-box; /* Include padding/border in width */
+    }
+
+    #customer {
+        padding: 12px;
+        font-size: 1em;
+    }
+
+    table, th, td {
+        font-size: 0.9em; /* Smaller table text */
+    }
+
+    /* Adjust layout for top action buttons on small screens */
+    .top-actions {
+        flex-direction: column; /* Stack buttons vertically */
+        gap: 0; /* Remove gap when stacked */
+    }
+    .top-actions button {
+        width: 100%; /* Full width when stacked */
+        margin-bottom: 10px; /* Add margin between stacked buttons */
+        flex: unset; /* Remove flex sizing */
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="loginDiv" class="login-box">
+    <h3>Login</h3>
+    <input id="user" type="text" placeholder="Username"><br>
+    <input id="pass" type="password" placeholder="Password"><br>
+
+    <select id="role">
+        <option value="owner">Owner</option>
+        <option value="employee">Employee</option>
+    </select><br><br>
+
+    <button onclick="login()">Login</button>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
+
+    <h2>Owner Billing System</h2>
+
+    <label for="customer">Customer:</label>
+    <input id="customer" type="text" placeholder="Customer Name">
+
+    <div class="top-actions">
+        <button onclick="placeOrder()">Next Customer</button>
+        <button id="exportBtn" onclick="exportExcel()">Export Excel</button>
+    </div>
+
+    <h3>Menu</h3>
+    <div id="menu"></div>
+
+    <h3>Current Bill</h3>
+    <div style="overflow-x:auto;"> <!-- Added for horizontal scrolling on small screens if table becomes too wide -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="bill"></tbody>
+        </table>
+    </div>
+
+
+    <h3>Total: ₹ <span id="total">0</span></h3>
+
+</div>
+
+<script>
+
+// ---------------- LOGIN ----------------
+let role = "";
+
+function login() {
+    let u = document.getElementById("user").value;
+    let p = document.getElementById("pass").value;
+    role = document.getElementById("role").value;
+
+    if(!u || !p){
+        alert("Please enter both username and password.");
+        return;
+    }
+
+    document.getElementById("loginDiv").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+
+    if(role === "employee"){
+        document.getElementById("exportBtn").style.display = "none";
+    }
+
+    renderMenu();
+}
+
+// ---------------- MENU DATA ----------------
+const menu = {
+    "Bowls": {
+        "dark": {Small:89, Big:120},
+        "white": {Small:89, Big:120},
+        "milk": {Small:89, Big:120},
+        "fusion": {Small:110, Big:140},
+        "nutella": {Small:110, Big:140},
+        "lotus biscoff": {Small:110, Big:140},
+        "kitkat": {Small:110, Big:140},
+        "oreo": {Small:110, Big:140},
+        "coffee choco": {Small:110, Big:140},
+        "blueberry": {Small:110, Big:140},
+        "pineapple": {Small:120, Big:150},
+        "Seasonal": {Small:160, Big:220}
+    },
+
+    "Pancakes": {
+        "Dark/milk/white": {"6":79, "9":99},
+        "Nutella": {"6":95, "9":115},
+        "biscoff": {"6":95, "9":115}
+    },
+
+    "Brownie": {
+        "without dip":80,
+        "with dip":100,
+        "nutella":180,
+        "biscoff":180,
+        "with icecream":150
+    },
+
+    "Fondue": {
+        "dark chocolate":150,
+        "milk":150,
+        "nutella":200
+    },
+
+    "Fizz": {
+        "strawberry":50,
+        "kiwi":50,
+        "blueberry":50,
+        "passion fruit":50,
+        "pineapple":50,
+        "kalakhatta":50,
+        "tigdam":60,
+        "tangy peach":60,
+        "jugalbandi":60,
+        "cold coco":90
+    },
+
+    "Boba": {
+        "strawberry":99,
+        "kiwi":99,
+        "blueberry":99,
+        "passion fruit":99,
+        "pineapple":99,
+        "kalakhatta":99,
+        "tigdam":99,
+        "tangy peach":99,
+        "jugalbandi":99
+    }
+};
+
+let currentTotal = 0;
+let billItems = [];
+
+// ---------------- RENDER MENU ----------------
+function renderMenu(){
+    let html = "";
+
+    for(let cat in menu){
+        html += `<div class="category"><b>${cat}</b>`; // Removed <br> here, CSS will handle spacing
+
+        for(let item in menu[cat]){
+            let options = menu[cat][item];
+
+            if(typeof options === "object"){
+                for(let size in options){
+                    html += `
+                    <button class="item-btn"
+                    onclick="addItem('${item}', ${options[size]}, '${size}')">
+                    ${item} (${size}) - ₹${options[size]}
+                    </button>`;
+                }
+            } else {
+                html += `
+                <button class="item-btn"
+                onclick="addItem('${item}', ${options}, '')">
+                ${item} - ₹${options}
+                </button>`;
+            }
+        }
+
+        html += `</div>`;
+    }
+
+    document.getElementById("menu").innerHTML = html;
+}
+
+// ---------------- ADD ITEM ----------------
+function addItem(name, price, size){
+    let qty = 1;
+
+    let total = price * qty;
+    currentTotal += total;
+
+    billItems.push({name, price, qty, total});
+
+    // Instead of appending directly, it's better to re-render the whole bill
+    // or properly update existing rows if the same item is added multiple times.
+    // For simplicity, I'll keep the append for now but suggest improvement if needed.
+    let row = `
+    <tr>
+        <td>${name} ${size ? "(" + size + ")" : ""}</td>
+        <td>${price}</td>
+        <td>${qty}</td>
+        <td>${total}</td>
+    </tr>`;
+
+    document.getElementById("bill").innerHTML += row;
+    document.getElementById("total").innerText = currentTotal;
+
+    // Scroll to the bottom of the bill for better UX on mobile
+    const billBody = document.getElementById("bill");
+    billBody.scrollTop = billBody.scrollHeight;
+}
+
+// ---------------- NEXT CUSTOMER ----------------
+function placeOrder(){
+    let customer = document.getElementById("customer").value;
+
+    if(!customer){
+        alert("Please enter customer name.");
+        return;
+    }
+    if (currentTotal === 0){
+        alert("No items in the current bill.");
+        return;
+    }
+
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+    orders.push({
+        customer,
+        items: billItems,
+        total: currentTotal,
+        date: new Date().toLocaleString()
+    });
+
+    localStorage.setItem("orders", JSON.stringify(orders));
+
+    alert("Order Saved for " + customer + "!");
+
+    // reset
+    document.getElementById("customer").value = "";
+    document.getElementById("bill").innerHTML = "";
+    document.getElementById("total").innerText = 0;
+
+    currentTotal = 0;
+    billItems = [];
+}
+
+// ---------------- EXPORT ----------------
+function exportExcel(){
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+    if (orders.length === 0) {
+        alert("No orders to export.");
+        return;
+    }
+
+    let table = "<table><tr><th>Customer</th><th>Total</th><th>Date</th></tr>";
+
+    orders.forEach(o=>{
+        table += `<tr>
+        <td>${o.customer}</td>
+        <td>${o.total}</td>
+        <td>${o.date}</td>
+        </tr>`;
+    });
+
+    table += "</table>";
+
+    let a = document.createElement("a");
+    // Using BOM to ensure correct encoding for Excel
+    const BOM = "\uFEFF";
+    a.href = "data:text/csv;charset=utf-8," + encodeURIComponent(BOM + table);
+    a.download = "orders.xls";
+    document.body.appendChild(a); // Append to body to make it clickable in all browsers
+    a.click();
+    document.body.removeChild(a); // Clean up
+}
+
+</script>
+
+</body>
+</html>
